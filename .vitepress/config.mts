@@ -10,6 +10,7 @@ const vitePressOptions = {
   base: "/tech-tips/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    outline: [1,6]  || 'all',
     nav: [],
     search: { provider: 'local' },
     editLink: { pattern: 'https://github.com/membound/tech-tips/edit/master/docs/:path' },
@@ -18,7 +19,7 @@ const vitePressOptions = {
     ]
   },
   markdown: {
-	math: true  
+    math: true  
   }
 }
 
