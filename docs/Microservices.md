@@ -1,3 +1,0 @@
-::: warning
-Work in progress!
-:::
