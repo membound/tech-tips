@@ -212,7 +212,7 @@ spec:
 ```
 :::
 
-###PersistentVolumeClaims - PVC
+### PersistentVolumeClaims - PVC
 Запит користувача (Pod'а) на ресурс PV. Дозволяє додатку вимагати сховище певного розміру та типу доступу, не знаючи деталей.
 
 ::: details Приклад PersistentVolumeClaim
