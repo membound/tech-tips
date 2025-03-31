@@ -61,8 +61,8 @@
         C->>S: ClientKeyExchange (Зашифрований Pre-Master Secret з ПублічнимКлючемСервера)
 
         Note over S: Розшифровка Pre-Master Secret за допомогою ПриватногоКлючаСервера
-        S->>S: Генерація Сесійних Ключів (використовуючи ClientRandom, ServerRandom, Pre-Master Secret)
-        C->>C: Генерація Сесійних Ключів (використовуючи ClientRandom, ServerRandom, Pre-Master Secret)
+        S->>S: Генерація Сесійних Ключів <br/>(вик. ClientRandom, ServerRandom, Pre-Master Secret)
+        C->>C: Генерація Сесійних Ключів <br/>(вик. ClientRandom, ServerRandom, Pre-Master Secret)
 
         Note over C,S: Обидві сторони тепер мають однаковий Симетричний Сесійний Ключ
 
