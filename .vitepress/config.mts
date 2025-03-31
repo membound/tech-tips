@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
 import { withSidebar } from 'vitepress-sidebar';
+import { withMermaid } from "vitepress-plugin-mermaid";
 
 
 // https://vitepress.dev/reference/site-config
@@ -30,6 +31,13 @@ const vitePressSidebarOptions = {
   hyphenToSpace: true,
 };
 
+const mermaidPluginOption = {
+	
+};
+
 export default defineConfig(
-  withSidebar(vitePressOptions, vitePressSidebarOptions)
+  withMermaid(
+    withSidebar(vitePressOptions, vitePressSidebarOptions), 
+    mermaidPluginOption
+  )
 )
