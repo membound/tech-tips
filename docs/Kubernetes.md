@@ -2,9 +2,7 @@
 title: Kubernetes & Helm
 ---
 
-# Ресурси Kubernetes та Helm
-
-Огляд ключових об'єктів Kubernetes для керування додатками та концепцій Helm для пакування та розгортання, з прикладами конфігурацій.
+# Kubernetes та Helm
 
 ## Основні Робочі Навантаження
 
@@ -385,21 +383,21 @@ ingress:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-deployment # Використання імені релізу
+  name: {&thinsp;{ .Release.Name }}-deployment # Використання імені релізу
 spec:
-  replicas: {{ .Values.replicaCount }} # Значення з values.yaml
+  replicas: {&thinsp;{ .Values.replicaCount }} # Значення з values.yaml
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
+      app: {&thinsp;{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
+        app: {&thinsp;{ .Release.Name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }} # Використання імені чарту
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" # Конкатенація значень
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: {&thinsp;{ .Chart.Name }} # Використання імені чарту
+          image: "{&thinsp;{ .Values.image.repository }}:{&thinsp;{ .Values.image.tag }}" # Конкатенація значень
+          imagePullPolicy: {&thinsp;{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80 # Статичне значення або також можна взяти з values
 ```
@@ -410,46 +408,46 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-service
+  name: {&thinsp;{ .Release.Name }}-service
 spec:
-  type: {{ .Values.service.type }} # Тип сервісу з values.yaml
+  type: {&thinsp;{ .Values.service.type }} # Тип сервісу з values.yaml
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {&thinsp;{ .Values.service.port }}
       targetPort: 80 # Припустимо, контейнер завжди слухає на 80
       protocol: TCP
       name: http
   selector:
-    app: {{ .Release.Name }}
+    app: {&thinsp;{ .Release.Name }}
 ```
 
 І шаблон для Ingress, який створюється тільки якщо `ingress.enabled` встановлено в `true`:
 ```yaml
 # templates/ingress.yaml
-{{- if .Values.ingress.enabled -}} # Умова "if"
+{&thinsp;{- if .Values.ingress.enabled -}} # Умова "if"
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ .Release.Name }}-ingress
+  name: {&thinsp;{ .Release.Name }}-ingress
 spec:
   rules:
-  - host: {{ .Values.ingress.host }} # Хост з values.yaml
+  - host: {&thinsp;{ .Values.ingress.host }} # Хост з values.yaml
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: {{ .Release.Name }}-service # Посилання на створений сервіс
+            name: {&thinsp;{ .Release.Name }}-service # Посилання на створений сервіс
             port:
-              number: {{ .Values.service.port }}
-{{- end }} # Кінець умови "if"
+              number: {&thinsp;{ .Values.service.port }}
+{&thinsp;{- end }} # Кінець умови "if"
 ```
 У цьому прикладі:
-*   `{{ .Values.someValue }}` звертається до значень у `values.yaml`.
-*   `{{ .Release.Name }}` використовує ім'я, надане під час встановлення (`helm install my-release .`).
-*   `{{ .Chart.Name }}` використовує ім'я чарту з `Chart.yaml`.
-*   Конструкція `{{- if ... }} ... {{- end }}` дозволяє умовно включати частини шаблону.
-*   `{{- ... -}}` видаляє зайві пробіли навколо тегу.
+*   `{&thinsp;{ .Values.someValue }}` звертається до значень у `values.yaml`.
+*   `{&thinsp;{ .Release.Name }}` використовує ім'я, надане під час встановлення (`helm install my-release .`).
+*   `{&thinsp;{ .Chart.Name }}` використовує ім'я чарту з `Chart.yaml`.
+*   Конструкція `{&thinsp;{- if ... }} ... {&thinsp;{- end }}` дозволяє умовно включати частини шаблону.
+*   `{&thinsp;{- ... -}}` видаляє зайві пробіли навколо тегу.
 :::
 
 ### Releases (Розгорнуті Додатки)
