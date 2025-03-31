@@ -383,21 +383,21 @@ ingress:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {&thinsp;{ .Release.Name }}-deployment # Використання імені релізу
+  name: {{ .Release.Name }}-deployment # Використання імені релізу
 spec:
-  replicas: {&thinsp;{ .Values.replicaCount }} # Значення з values.yaml
+  replicas: {{ .Values.replicaCount }} # Значення з values.yaml
   selector:
     matchLabels:
-      app: {&thinsp;{ .Release.Name }}
+      app: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {&thinsp;{ .Release.Name }}
+        app: {{ .Release.Name }}
     spec:
       containers:
-        - name: {&thinsp;{ .Chart.Name }} # Використання імені чарту
-          image: "{&thinsp;{ .Values.image.repository }}:{&thinsp;{ .Values.image.tag }}" # Конкатенація значень
-          imagePullPolicy: {&thinsp;{ .Values.image.pullPolicy }}
+        - name: {{ .Chart.Name }} # Використання імені чарту
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" # Конкатенація значень
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80 # Статичне значення або також можна взяти з values
 ```
@@ -408,39 +408,39 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {&thinsp;{ .Release.Name }}-service
+  name: {{ .Release.Name }}-service
 spec:
-  type: {&thinsp;{ .Values.service.type }} # Тип сервісу з values.yaml
+  type: {{ .Values.service.type }} # Тип сервісу з values.yaml
   ports:
-    - port: {&thinsp;{ .Values.service.port }}
+    - port: {{ .Values.service.port }}
       targetPort: 80 # Припустимо, контейнер завжди слухає на 80
       protocol: TCP
       name: http
   selector:
-    app: {&thinsp;{ .Release.Name }}
+    app: {{ .Release.Name }}
 ```
 
 І шаблон для Ingress, який створюється тільки якщо `ingress.enabled` встановлено в `true`:
 ```yaml
 # templates/ingress.yaml
-{&thinsp;{- if .Values.ingress.enabled -}} # Умова "if"
+{{- if .Values.ingress.enabled -}} # Умова "if"
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {&thinsp;{ .Release.Name }}-ingress
+  name: {{ .Release.Name }}-ingress
 spec:
   rules:
-  - host: {&thinsp;{ .Values.ingress.host }} # Хост з values.yaml
+  - host: {{ .Values.ingress.host }} # Хост з values.yaml
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: {&thinsp;{ .Release.Name }}-service # Посилання на створений сервіс
+            name: {{ .Release.Name }}-service # Посилання на створений сервіс
             port:
-              number: {&thinsp;{ .Values.service.port }}
-{&thinsp;{- end }} # Кінець умови "if"
+              number: {{ .Values.service.port }}
+{{- end }} # Кінець умови "if"
 ```
 У цьому прикладі:
 *   `{&thinsp;{ .Values.someValue }}` звертається до значень у `values.yaml`.
