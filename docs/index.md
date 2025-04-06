@@ -9,7 +9,7 @@ hero:
   actions:
     - theme: brand
       text: Open tips
-      link: /Програмування/General
+      link: /Програмування/Концепції
 #    - theme: alt
 #      text: API Examples
 #      link: /api-examples
